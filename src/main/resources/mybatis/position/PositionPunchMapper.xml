@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ebchinatech.itop.web.punch.mapper.PositionPunchMapper">
+
+    <resultMap type="PositionPunch" id="PositionPunchResult">
+        <result property="id"    column="id"    />
+        <result property="siteName"    column="site_name"    />
+        <result property="longitude"    column="longitude"    />
+        <result property="latitude"    column="latitude"    />
+        <result property="addr"    column="addr"    />
+    </resultMap>
+
+    <sql id="selectPositionPunchVo">
+        select id, site_name, longitude, latitude, addr from position_punch
+    </sql>
+
+    <select id="selectPositionPunchList" parameterType="PositionPunch" resultMap="PositionPunchResult">
+        <include refid="selectPositionPunchVo"/>
+        <where>
+            <if test="siteName != null  and siteName != ''"> and site_name like concat('%', #{siteName}, '%')</if>
+            <if test="longitude != null  and longitude != ''"> and longitude like concat('%', #{longitude}, '%')</if>
+            <if test="latitude != null  and latitude != ''"> and latitude like concat('%', #{latitude}, '%')</if>
+            <if test="addr != null  and addr != ''"> and addr like concat('%', #{addr}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectPositionPunchById" parameterType="Long" resultMap="PositionPunchResult">
+        <include refid="selectPositionPunchVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertPositionPunch" parameterType="PositionPunch" useGeneratedKeys="true" keyProperty="id">
+        insert into position_punch
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="siteName != null  and siteName != ''">site_name,</if>
+            <if test="longitude != null  and longitude != ''">longitude,</if>
+            <if test="latitude != null  and latitude != ''">latitude,</if>
+            <if test="addr != null  and addr != ''">addr,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="siteName != null  and siteName != ''">#{siteName},</if>
+            <if test="longitude != null  and longitude != ''">#{longitude},</if>
+            <if test="latitude != null  and latitude != ''">#{latitude},</if>
+            <if test="addr != null  and addr != ''">#{addr},</if>
+         </trim>
+    </insert>
+
+    <insert id="insertPositionPunchBatch" parameterType="map" >
+        insert into position_punch_copy (site_name, addr) values
+        <if test="others != null">
+            <foreach collection="others.entrySet()" item="item" index="key" separator=",">
+             (#{item.key},#{item.value})
+             </foreach>
+        </if>
+    </insert>
+
+    <update id="updatePositionPunch" parameterType="PositionPunch">
+        update position_punch
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="siteName != null  and siteName != ''">site_name = #{siteName},</if>
+            <if test="longitude != null  and longitude != ''">longitude = #{longitude},</if>
+            <if test="latitude != null  and latitude != ''">latitude = #{latitude},</if>
+            <if test="addr != null  and addr != ''">addr = #{addr},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePositionPunchById" parameterType="Long">
+        delete from position_punch where id = #{id}
+    </delete>
+
+    <delete id="deletePositionPunchByIds" parameterType="String">
+        delete from position_punch where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

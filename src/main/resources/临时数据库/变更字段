@@ -1,0 +1,24 @@
+ALTER TABLE supplier_person ADD COLUMN `contract_code` varchar(64) DEFAULT NULL
+COMMENT '合同编码-用于区分相同的code，属于同一合同';
+
+ALTER TABLE supplier_person_relation_info ADD COLUMN `contract_code` varchar(64)
+DEFAULT NULL COMMENT '合同编码-用于区分相同的code，属于同一合同';
+
+ALTER TABLE supplier_contract ADD COLUMN `supplier_code` varchar(64)
+DEFAULT NULL COMMENT '供应商code';
+
+
+------------2022年6月1日20:54:38
+
+ALTER TABLE supplier_person ADD COLUMN   `change_type` char(1) DEFAULT '0' COMMENT '变更类型 0未变更 1变更 ';
+ALTER TABLE supplier_person ADD COLUMN   `original_version` varchar(64) DEFAULT NULL COMMENT '原始版本号';
+ALTER TABLE supplier_person ADD COLUMN   `last_version` varchar(64) DEFAULT NULL COMMENT '变更后版本号，它对应的版本号就是当前主键id';
+ALTER TABLE supplier_person ADD COLUMN   `original_version_person_id` bigint(20) DEFAULT NULL COMMENT '原始版本号对应的 人员id';
+ALTER TABLE supplier_person ADD COLUMN   `change_time` datetime DEFAULT NULL COMMENT '变更时间，审核通过之后变更该时间';
+
+ALTER TABLE supplier_person ADD COLUMN   `remarks` varchar(1000) DEFAULT NULL COMMENT '备注';
+ALTER TABLE supplier_person ADD COLUMN   `first_person_id` bigint(20) DEFAULT NULL COMMENT '第一次的人员id，变更几次，该值均不变，
+主要是用于关联查询第一个版本的，人员状态';
+ALTER TABLE supplier_person ADD COLUMN   `proc_inst_id` varchar(64) DEFAULT NULL COMMENT '人员变更流程实例id';
+ALTER TABLE supplier_person ADD COLUMN   `change_status` varchar(64) DEFAULT NULL COMMENT '变更节点状态';
+ALTER TABLE supplier_person ADD COLUMN   `is_first_hide_version` char(1) DEFAULT '0' COMMENT '是否为第一次隐藏的历史人员版本 0否 1是';

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ebchinatech.itop.web.punch.mapper.PersonInfoPunchMapper">
+
+    <resultMap type="PersonInfoPunch" id="PersonInfoPunchResult">
+        <result property="id"    column="id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="phone"    column="phone"    />
+        <result property="password"    column="password"    />
+        <result property="positionId"    column="position_id"    />
+        <result property="isPunch"    column="is_punch"    />
+        <result property="sleepTime"    column="sleep_time"    />
+    </resultMap>
+
+    <sql id="selectPersonInfoPunchVo">
+        SELECT
+            a.id,
+            a.user_name,
+            a.phone,
+            a. PASSWORD,
+            a.position_id,
+            b.site_name 'positionName',
+                a.is_punch,
+            a.sleep_time
+        FROM
+            person_info_punch a
+            LEFT JOIN position_punch b ON b.id = a.position_id
+    </sql>
+
+    <select id="selectPersonInfoPunchList" parameterType="PersonInfoPunch" resultMap="PersonInfoPunchResult">
+        <include refid="selectPersonInfoPunchVo"/>
+        <where>
+            <if test="userName != null  and userName != ''"> and a.user_name like concat('%', #{userName}, '%')</if>
+            <if test="phone != null  and phone != ''"> and a.phone like concat('%', #{phone}, '%')</if>
+            <if test="password != null  and password != ''"> and a.password = #{password}</if>
+            <if test="positionId != null "> and a.position_id = #{positionId}</if>
+            <if test="isPunch != null  and isPunch != ''"> and a.is_punch = #{isPunch}</if>
+        </where>
+        order by a.is_punch desc
+    </select>
+
+    <select id="selectPersonInfoPunchById" parameterType="Long" resultMap="PersonInfoPunchResult">
+        <include refid="selectPersonInfoPunchVo"/>
+        where a.id = #{id}
+    </select>
+
+    <insert id="insertPersonInfoPunch" parameterType="PersonInfoPunch" useGeneratedKeys="true" keyProperty="id">
+        insert into person_info_punch
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName != null  and userName != ''">user_name,</if>
+            <if test="phone != null  and phone != ''">phone,</if>
+            <if test="password != null  and password != ''">password,</if>
+            <if test="positionId != null ">position_id,</if>
+            <if test="isPunch != null  and isPunch != ''">is_punch,</if>
+            <if test="sleepTime != null ">sleep_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userName != null  and userName != ''">#{userName},</if>
+            <if test="phone != null  and phone != ''">#{phone},</if>
+            <if test="password != null  and password != ''">#{password},</if>
+            <if test="positionId != null ">#{positionId},</if>
+            <if test="isPunch != null  and isPunch != ''">#{isPunch},</if>
+            <if test="sleepTime != null">#{sleepTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePersonInfoPunch" parameterType="PersonInfoPunch">
+        update person_info_punch
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userName != null  and userName != ''">user_name = #{userName},</if>
+            <if test="phone != null  and phone != ''">phone = #{phone},</if>
+            <if test="password != null  and password != ''">password = #{password},</if>
+            <if test="positionId != null ">position_id = #{positionId},</if>
+            <if test="isPunch != null  and isPunch != ''">is_punch = #{isPunch},</if>
+            <if test="sleepTime != null">sleep_time = #{sleepTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePersonInfoPunchById" parameterType="Long">
+        delete from person_info_punch where id = #{id}
+    </delete>
+
+    <delete id="deletePersonInfoPunchByIds" parameterType="String">
+        delete from person_info_punch where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="changePunchStatue" >
+
+        <if test="type != null  and type != '' and type=='0'.toString() ">
+            UPDATE person_info_punch SET is_punch =0
+            where id in
+            <foreach item="id" collection="ids" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
+        <if test="type != null  and type != '' and type=='1'.toString() ">
+            UPDATE person_info_punch SET is_punch =1
+            where id in
+            <foreach item="id" collection="ids" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
+
+    </update>
+
+    <update id="changePunchStatueByPhone" >
+        UPDATE person_info_punch
+        SET is_punch =
+        CASE
+        is_punch
+        WHEN 0 THEN 1
+        WHEN 1 THEN 0
+        END
+        where phone=#{phone}
+    </update>
+
+
+
+    <update id="reversePunch" parameterType="String">
+        UPDATE person_info_punch
+        SET is_punch =
+                CASE
+                    is_punch
+                    WHEN 0 THEN 1
+                    WHEN 1 THEN 0
+                END
+        where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="queryAllowPunchPerson" resultType="map">
+        SELECT
+            a.password,
+            a.user_name userName,
+            a.phone,
+            b.addr,
+            b.longitude,
+            b.latitude,
+            a.sleep_time sleepTime
+        FROM
+            person_info_punch a
+            INNER JOIN position_punch b ON a.position_id = b.id
+        where a.is_punch in ('1')
+       <if test="phoneStr != null  and phoneStr != ''">
+           and FIND_IN_SET(a.phone,#{phoneStr})
+       </if>
+    </select>
+
+</mapper>

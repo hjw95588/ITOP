@@ -1,0 +1,195 @@
+server:
+    port: 18111
+# Project Setting
+kylin:
+    name: Kylin
+    version: V1.0.0
+    copyrightYear: 2021
+    profile: /itopupload/new
+    serverAddr: kylin.file.com:81
+    pc_app_url: http://25.5.200.109:18100 #app首页地址
+    defaultRoleId: 393
+# Spring Settings
+spring:
+    mail:
+        #发送方smtp服务主机
+        host: mail.ebchinatech.com
+        #服务协议
+        protocol: smtp
+        # 编码集
+        default-encoding: UTF-8
+        #发送邮件的账户
+        username: ebtechsys@ebchinatech.com
+        #授权码
+        password: Ceb12345@ebtechsys
+        properties:
+            mail:
+                smtp:
+                    socketFactory:
+                        class: javax.net.ssl.SSLSocketFactory
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        druid:
+            #            url: jdbc:mysql://172.21.0.9:13306/itop?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&allowMultiQueries=true
+            #            username: root
+            #            password: mysql_ITOP@123
+            url: jdbc:mysql://25.5.1.203:13309/itop?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&allowMultiQueries=true
+            username: itop
+            password: itop@1234
+            # 初始连接数
+            initialSize: 5
+            # 最小连接池数量
+            minIdle: 10
+            # 最大连接池数量
+            maxActive: 20
+            # 配置获取连接等待超时的时间
+            maxWait: 60000
+            # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+            timeBetweenEvictionRunsMillis: 60000
+            # 配置一个连接在池中最小生存的时间，单位是毫秒
+            minEvictableIdleTimeMillis: 300000
+            # 配置一个连接在池中最大生存的时间，单位是毫秒
+            maxEvictableIdleTimeMillis: 900000
+            # 配置检测连接是否有效
+            validationQuery: SELECT 1 FROM DUAL
+            testWhileIdle: true
+            testOnBorrow: false
+            testOnReturn: false
+            webStatFilter:
+                enabled: true
+            statViewServlet:
+                enabled: true
+                # 设置白名单，不填则允许所有访问
+                allow:
+                url-pattern: /druid/*
+                # 控制台管理用户名和密码
+                login-username:
+                login-password:
+            filter:
+                stat:
+                    enabled: true
+                    log-slow-sql: true
+                    slow-sql-millis: 1000
+                    merge-sql: true
+                wall:
+                    config:
+                        multi-statement-allow: true
+
+
+    # Redis Setting
+    redis:
+        # Host
+#        host: 25.5.0.4
+        # Port (default:6379)
+#        port: 16379
+        password: gdjtredis2019@
+        sentinel:
+            master: redisMaster
+            nodes: 25.5.0.4:9615,25.5.0.5:9615,25.5.0.9:9615
+        timeout: 10s
+        database: 9
+        lettuce:
+            pool:
+                # Connection Pool Smallest Idle Connections
+                min-idle: 20
+                # Connection Pool Largest Idle Connections
+                max-idle: 1
+                # Connection Pool Maximum Database Connections
+                max-active: 100
+                # Connection Pool Maximum Blocking Wait Time (Negative Value To No Limit)
+                max-wait: -1ms
+    main:
+        allow-bean-definition-overriding: true
+##数据港参数
+data:
+    dept:
+        top_id: 1800000000
+        exclude_id: 1800000001
+        ##增量数据 http://25.2.16.106:17121/org/chg/std?etl_dt=
+        chg_url: NULL
+        ##全量数据
+        url: http://25.1.0.212:17121/org/id/tree/std?grpOrgId=1800000000
+    user:
+        ##增量数据 http://25.2.16.106:17121/emp/chg/std?etl_dt=
+        chg_url: NULL
+        ##全量数据
+        url: http://25.1.0.212:17121/org/id/emp/dimss/dt?grpOrgId=1800000000
+
+    login_manpower:
+        ##登录人力接口url
+        url: http://25.5.200.121:19611/auth/oauth/token
+        ##登录人力接口参数
+        client_id: 970056fa-5c80-85a2-cb60-5acade7c4ae7
+        client_secret: c8d676c8-76c0-c0e2-ea2c-fcd997935399
+        grant_type: client_credentials
+    attendance:
+        ##获取人力的考勤数据
+        url: http://25.5.200.121:19610/api/v1/getWaAnalyseList/K
+    workingCalendar:
+        ##同步人力的工作日历
+        url: http://25.5.200.121:19610/api/v1/getWorkCalendarDetails
+    Authorization: Basic aXRvcDpDZWIxMjM0NQ==
+
+
+#IAM参数
+iam:
+    url: http://iam.ebchina.com
+    code:
+        #IAM获取code接口
+        url: ${iam.url}/4a-app/oauth/authorize
+    token:
+        #IAM获取token接口
+        url: ${iam.url}/4a-app/oauth/token
+    user:
+        #IAM获取用户信息接口
+        url: ${iam.url}/4a-app/oauth2-service/sso-account
+    redirect:
+        #IAM重定向到应用系统接口（请项目组自行更改IP，端口） /iam/auth为平台后端服务
+        url: http://25.5.200.109:18100/prod-api/iam/auth
+    #IAM分配凭证（请项目组自行更改参数）
+    clientId: e38ac390-4725-4d96-b138-d6280018809d
+    clientSecret: f9fffce4-261e-4468-8437-ee3d717933ee
+    responseType: code
+    scope: sso:*
+    state: piis
+    grantType: authorization_code
+
+
+#E信参数
+ex:
+    code:
+        url: https://open.weixin.qq.com/connect/oauth2/authorize
+    redirect:
+        url: http://25.2.16.160:18080/oauth
+    token:
+        url: http://25.5.200.21/cgi-bin/gettoken?corpid=%s&corpsecret=%s
+    user:
+        url: http://25.5.200.21/cgi-bin/user/getuserinfo?access_token=%s&code=%s
+    responseType: code
+    scope: snsapi_privateinfo
+    appId: wl310ee8108c
+    agentId: 1000169
+    corpId: wl310ee8108c
+    corpSecret: MZjG2_qBR1o46jocDpbh0XMPhiwdmhR_A6GJxq1uYSE
+    weChat: wechat_redirect
+    sendMessage: http://25.5.200.21/cgi-bin/message/send?access_token=%s
+    exinticket:
+        url: http://25.5.200.21/cgi-bin/get_jsapi_ticket?access_token=%s
+oldItopUrl: http://25.5.200.109:18081/jtcl/bcp-eb/initial.html
+
+##数据港机构和人员接口
+dhapi:
+    publicKey: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCD7VuOMlhpJA/SJVi7mEbYQxSmgVWYCstaKpbTM71zyRdiN2xa6nzF8pAP65pU30SAXBFtZQapFM5nyF1fv6efH36lwlQvi/NXed+Xsd1L98TlmkTi0eqn/nUCbLOU0U37mxztD2CAa6wvysLn0lGJRZFHK5Nkn+TJlEG3K5zxswIDAQAB
+    clientId: ITOP
+    grpOrgId: 1800000000
+    dept:
+        #全量
+        urlAll: http://25.5.200.160:19000/dhapi/org/org/listOrgTreeById
+        #增量
+        urlPart: http://25.5.200.160:19000/dhapi/org/org/listOrgByEtlDt
+    user:
+        #全量
+        urlAll: http://25.5.200.160:19000/dhapi/emp/emp/listEmpDateByOrg
+        #增量
+        urlPart: http://25.5.200.160:19000/dhapi/emp/emp/listEmpByEtlDt

@@ -1,0 +1,29 @@
+server:
+  port: 39111
+spring:
+  profiles:
+    active: dev
+    include: kylin
+  mail:
+    #发送方smtp服务主机
+    host: smtp.ebchinatech.com
+    #服务协议
+    protocol: smtp
+    # 编码集
+    default-encoding: UTF-8
+    #发送邮件的账户
+    username: 1800000@ebchinatech.com
+    #授权码
+    password: abcd1234
+    properties:
+      mail:
+        smtp:
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+#加密参数
+encrypt:
+  open: true # 是否开启加密 true  or  false
+  showLog: true # 是否打印加解密log true  or  false
+  publicKey: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDvjfXaC1FjoerYNxlZbpX2w8Arvo7BxF9W81CyoMqkZS2NUwF0TN5l0aTdQizTMGxaPcNLET/z8RziaPg0ZBjjeTnEN7ygNIxbjC/Y2SfGnWSPTS/ATsHc/xjGDts1Y7WN0/x56qN8N9DFhHVQYTJOlZwERJN7pRKPvIueR9U3jwIDAQAB
+  privateKey: MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAO+N9doLUWOh6tg3GVlulfbDwCu+jsHEX1bzULKgyqRlLY1TAXRM3mXRpN1CLNMwbFo9w0sRP/PxHOJo+DRkGON5OcQ3vKA0jFuML9jZJ8adZI9NL8BOwdz/GMYO2zVjtY3T/Hnqo3w30MWEdVBhMk6VnAREk3ulEo+8i55H1TePAgMBAAECgYBOJU41Mgn76X8Vx2uii/upwxO2cXRaa3f6gmcpzmAsnsDsYE6SJN1L88bHUuYSgrJmAc3qeBcXuekFRt7pIFopgOrVNdqGasPNHAQS2z9hmXEnuc1+dSrIs2E0TUjwKb5pwbJ//XbBYVmCJeNyRYY2qTBgYnYQDrFb7OCOSvAxCQJBAP5PmhSauJYBunVJzt5zK8pzp2Ael1x2qGiL+004PNT5YPKds/80STkTe0ChbTbdqZR/UECEuXhowaYs/6VaGV0CQQDxJUS/fzSuz+P37kFC2SPx0FuNEN6T5Z3RHiQE+kI6SPCi0CNhSgVJo/JFxbtTtU+31BuSdqRTRpDoUokWPknbAkEAlA6uCu7lJlhNQPm+mZ390bkxqfFFeAyREYTlwthJ+khR3A5ae+rp8nPYHxGcbwPwNcdFZrqe7G44x9GM6Kyi9QJBAKrYK5e8aLe9I5bA3s2ch2HHq0ULAZYopKHGR+Ca6RbgHFRNP/OqfIqKs5eJGkmY+AyWIp6mnY8+PGXMK8FtiecCQFEnem8xEoCgesMf6BnzM4tLPM0l/pWVe6MHKRqzApVdY0bI2M1+GpFV91k+fEm8oeKuG7a2CxIXbB8sY/lh2IM=
+  clientPublicKey: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCq+UJi6rUz1SzBD/Oq5/+Z1aanLSfWgOA6oYMomoAhbzAPa5i6hmlGMVJUjJazNudQeV5RJiZwPDNcRwtkSyEPv9QPjC54zYNe7NW32/InIWjKfC9OfNz1LRUhXfTWjKYfS0aBPniyEwVIB2vbjYU/7DPxhK1txQT/Lc04UYlbmwIDAQAB

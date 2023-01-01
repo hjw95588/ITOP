@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ebchinatech.itop.web.punch.mapper.PersonInfoGivelikeMapper">
+
+    <resultMap type="PersonInfoGivelike" id="PersonInfoGivelikeResult">
+        <result property="userId"    column="user_id"    />
+        <result property="sessionId"    column="session_id"    />
+        <result property="createBy"    column="CREATE_BY"    />
+        <result property="createTime"    column="CREATE_TIME"    />
+        <result property="updateBy"    column="UPDATE_BY"    />
+        <result property="updateTime"    column="UPDATE_TIME"    />
+        <result property="remark"    column="REMARK"    />
+    </resultMap>
+
+    <sql id="selectPersonInfoGivelikeVo">
+        SELECT
+            a.user_id,
+            b.USER_NAME userName,
+            a.session_id,
+            a.CREATE_BY,
+            a.CREATE_TIME,
+            a.UPDATE_BY,
+            a.UPDATE_TIME,
+            a.REMARK,
+            a.isNeedGive
+        FROM
+            person_info_givelike a
+                LEFT JOIN sys_user b on a.user_id=b.USER_ID
+    </sql>
+
+    <select id="selectPersonInfoGivelikeList" parameterType="PersonInfoGivelike" resultMap="PersonInfoGivelikeResult">
+        <include refid="selectPersonInfoGivelikeVo"/>
+        <where>
+            <if test="userName != null  and userName != ''"> and instr(b.user_name,#{userName})</if>
+            <if test="sessionId != null  and sessionId != ''"> and a.session_id = #{sessionId}</if>
+            <if test="createBy != null  and createBy != ''"> and a.CREATE_BY = #{createBy}</if>
+            <if test="createTime != null "> and a.CREATE_TIME = #{createTime}</if>
+            <if test="updateBy != null  and updateBy != ''"> and a.UPDATE_BY = #{updateBy}</if>
+            <if test="updateTime != null "> and a.UPDATE_TIME = #{updateTime}</if>
+            <if test="remark != null  and remark != ''"> and a.REMARK = #{remark}</if>
+            <if test="isNeedGive != null  and isNeedGive != ''"> and a.isNeedGive = #{isNeedGive}</if>
+        </where>
+        order by a.CREATE_TIME desc
+    </select>
+
+    <select id="selectPersonInfoGivelikeById" parameterType="String" resultMap="PersonInfoGivelikeResult">
+        <include refid="selectPersonInfoGivelikeVo"/>
+        where a.user_id = #{userId}
+    </select>
+
+    <insert id="insertPersonInfoGivelike" parameterType="PersonInfoGivelike">
+        insert into person_info_givelike
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null  and userId != ''">user_id,</if>
+            <if test="sessionId != null  and sessionId != ''">session_id,</if>
+            <if test="createBy != null  and createBy != ''">CREATE_BY,</if>
+            <if test="createTime != null ">CREATE_TIME,</if>
+            <if test="updateBy != null  and updateBy != ''">UPDATE_BY,</if>
+            <if test="updateTime != null ">UPDATE_TIME,</if>
+            <if test="remark != null  and remark != ''">REMARK,</if>
+            <if test="isNeedGive != null  and isNeedGive != ''">isNeedGive,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null  and userId != ''">#{userId},</if>
+            <if test="sessionId != null  and sessionId != ''">#{sessionId},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="isNeedGive != null  and isNeedGive != ''">#{isNeedGive},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePersonInfoGivelike" parameterType="PersonInfoGivelike">
+        update person_info_givelike
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sessionId != null  and sessionId != ''">session_id = #{sessionId},</if>
+            <if test="createBy != null  and createBy != ''">CREATE_BY = #{createBy},</if>
+            <if test="createTime != null ">CREATE_TIME = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">UPDATE_BY = #{updateBy},</if>
+            <if test="updateTime != null ">UPDATE_TIME = #{updateTime},</if>
+            <if test="remark != null  and remark != ''">REMARK = #{remark},</if>
+            <if test="isNeedGive != null  and isNeedGive != ''">isNeedGive = #{isNeedGive},</if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <delete id="deletePersonInfoGivelikeById" parameterType="String">
+        delete from person_info_givelike where user_id = #{userId}
+    </delete>
+
+    <delete id="deletePersonInfoGivelikeByIds" parameterType="String">
+        delete from person_info_givelike where user_id in
+        <foreach item="userId" collection="array" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+
+    <update id="reverseIsNeedGive" parameterType="String">
+        UPDATE person_info_givelike
+        SET isNeedGive =
+        CASE
+        isNeedGive
+        WHEN 0 THEN 1
+        WHEN 1 THEN 0
+        END
+        where user_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+</mapper>

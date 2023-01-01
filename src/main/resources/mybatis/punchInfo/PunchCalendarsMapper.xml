@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ebchinatech.itop.web.punch.mapper.PunchCalendarsMapper">
+
+    <resultMap type="PunchCalendars" id="PunchCalendarsResult">
+        <result property="workDate"    column="work_date"    />
+        <result property="shiftDefName"    column="shift_def_name"    />
+        <result property="dateType"    column="date_type"    />
+    </resultMap>
+
+    <sql id="selectPunchCalendarsVo">
+        select work_date, shift_def_name, date_type from punch_calendars
+    </sql>
+
+    <select id="selectPunchCalendarsList" parameterType="PunchCalendars" resultMap="PunchCalendarsResult">
+        <include refid="selectPunchCalendarsVo"/>
+        <where>
+            <if test="shiftDefName != null  and shiftDefName != ''"> and shift_def_name like concat('%', #{shiftDefName}, '%')</if>
+            <if test="dateType != null  and dateType != ''"> and date_type = #{dateType}</if>
+            <if test="year != null  and year != ''"> and left(work_date,4)= #{year}</if>
+            <if test="workDate != null  and workDate != ''"> and work_date=#{workDate}</if>
+        </where>
+    </select>
+
+    <select id="selectPunchCalendarsById" parameterType="String" resultMap="PunchCalendarsResult">
+        <include refid="selectPunchCalendarsVo"/>
+        where work_date = #{workDate}
+    </select>
+
+    <insert id="insertPunchCalendars" parameterType="PunchCalendars">
+        insert into punch_calendars
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="workDate != null  and workDate != ''">work_date,</if>
+            <if test="shiftDefName != null  and shiftDefName != ''">shift_def_name,</if>
+            <if test="dateType != null  and dateType != ''">date_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="workDate != null  and workDate != ''">#{workDate},</if>
+            <if test="shiftDefName != null  and shiftDefName != ''">#{shiftDefName},</if>
+            <if test="dateType != null  and dateType != ''">#{dateType},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePunchCalendars" parameterType="PunchCalendars">
+        update punch_calendars
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="shiftDefName != null  and shiftDefName != ''">shift_def_name = #{shiftDefName},</if>
+            <if test="dateType != null  and dateType != ''">date_type = #{dateType},</if>
+        </trim>
+        where work_date = #{workDate}
+    </update>
+
+    <delete id="deletePunchCalendarsById" parameterType="String">
+        delete from punch_calendars where work_date = #{workDate}
+    </delete>
+
+    <delete id="deletePunchCalendarsByIds" parameterType="String">
+        delete from punch_calendars where work_date in
+        <foreach item="workDate" collection="array" open="(" separator="," close=")">
+            #{workDate}
+        </foreach>
+    </delete>
+    
+    <select id="getBetweenList"  resultMap="PunchCalendarsResult">
+       <include refid="selectPunchCalendarsVo"/>
+      
+        <where>
+            <if test="startDate != null  and startDate != ''"> 
+             and DATE_FORMAT(work_date, '%Y-%m-%d') >= DATE_FORMAT(#{startDate}, '%Y-%m-%d')
+            </if>
+            
+            <if test="endDate != null  and endDate != ''"> 
+             and DATE_FORMAT(#{endDate}, '%Y-%m-%d') >= DATE_FORMAT(work_date, '%Y-%m-%d')
+            </if>
+            
+            and date_type=1
+            
+        </where>
+    </select>
+
+</mapper>

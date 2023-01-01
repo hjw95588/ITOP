@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ebchinatech.itop.web.punch.mapper.BirthMapper">
+
+    <resultMap type="Birth" id="BirthResult">
+        <result property="birUserId"    column="birUserId"    />
+        <result property="birName"    column="birName"    />
+        <result property="deptType"    column="deptType"    />
+        <result property="deptId"    column="deptId"    />
+        <result property="deptName"    column="deptName"    />
+        <result property="birMonth"    column="birMonth"    />
+        <result property="birDay"    column="birDay"    />
+        <result property="avatar"    column="avatar"    />
+        <result property="result"    column="result"    />
+        <result property="monthResult"    column="monthResult"    />
+        <result property="starFlag"    column="starFlag"    />
+        <result property="flag"    column="flag"    />
+    </resultMap>
+
+    <sql id="selectBirthVo">
+        select birUserId, birName, deptType, deptId, deptName, birMonth, birDay, avatar, result, monthResult, starFlag,flag from birth
+    </sql>
+
+    <select id="selectBirthList" parameterType="Birth" resultMap="BirthResult">
+        <include refid="selectBirthVo"/>
+        <where>
+            <if test="birName != null  and birName != ''"> and birName like concat('%', #{birName}, '%')</if>
+            <if test="deptType != null  and deptType != ''"> and deptType = #{deptType}</if>
+            <if test="deptId != null  and deptId != ''"> and deptId = #{deptId}</if>
+            <if test="deptName != null  and deptName != ''"> and deptName like concat('%', #{deptName}, '%')</if>
+            <if test="birMonth != null  and birMonth != ''"> and birMonth = #{birMonth}</if>
+            <if test="birDay != null  and birDay != ''"> and birDay like concat('%', #{birDay}, '%')</if>
+            <if test="avatar != null  and avatar != ''"> and avatar = #{avatar}</if>
+            <if test="result != null  and result != ''"> and result = #{result}</if>
+            <if test="monthResult != null  and monthResult != ''"> and monthResult = #{monthResult}</if>
+            <if test="startDate != null  and startDate != ''"> and birDay &gt;= #{startDate}</if>
+
+            <if test="endDate != null  and endDate != ''"> and birDay &lt;= #{endDate}</if>
+            <if test="flag != null  and flag != ''"> and flag = #{flag}</if>
+
+        </where>
+        order by birDay desc
+    </select>
+
+    <select id="selectBirthById" parameterType="String" resultMap="BirthResult">
+        <include refid="selectBirthVo"/>
+        where birUserId = #{birUserId}
+    </select>
+
+    <insert id="insertBirth" parameterType="Birth">
+        insert into birth
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="birUserId != null  and birUserId != ''">birUserId,</if>
+            <if test="birName != null  and birName != ''">birName,</if>
+            <if test="deptType != null  and deptType != ''">deptType,</if>
+            <if test="deptId != null  and deptId != ''">deptId,</if>
+            <if test="deptName != null  and deptName != ''">deptName,</if>
+            <if test="birMonth != null  and birMonth != ''">birMonth,</if>
+            <if test="birDay != null  and birDay != ''">birDay,</if>
+            <if test="avatar != null  and avatar != ''">avatar,</if>
+            <if test="result != null  and result != ''">result,</if>
+            <if test="monthResult != null  and monthResult != ''">monthResult,</if>
+            <if test="starFlag != null  and starFlag != ''">starFlag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="birUserId != null  and birUserId != ''">#{birUserId},</if>
+            <if test="birName != null  and birName != ''">#{birName},</if>
+            <if test="deptType != null  and deptType != ''">#{deptType},</if>
+            <if test="deptId != null  and deptId != ''">#{deptId},</if>
+            <if test="deptName != null  and deptName != ''">#{deptName},</if>
+            <if test="birMonth != null  and birMonth != ''">#{birMonth},</if>
+            <if test="birDay != null  and birDay != ''">#{birDay},</if>
+            <if test="avatar != null  and avatar != ''">#{avatar},</if>
+            <if test="result != null  and result != ''">#{result},</if>
+            <if test="monthResult != null  and monthResult != ''">#{monthResult},</if>
+            <if test="starFlag != null  and starFlag != ''">#{starFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBirth" parameterType="Birth">
+        update birth
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="birName != null  and birName != ''">birName = #{birName},</if>
+            <if test="deptType != null  and deptType != ''">deptType = #{deptType},</if>
+            <if test="deptId != null  and deptId != ''">deptId = #{deptId},</if>
+            <if test="deptName != null  and deptName != ''">deptName = #{deptName},</if>
+            <if test="birMonth != null  and birMonth != ''">birMonth = #{birMonth},</if>
+            <if test="birDay != null  and birDay != ''">birDay = #{birDay},</if>
+            <if test="avatar != null  and avatar != ''">avatar = #{avatar},</if>
+            <if test="result != null  and result != ''">result = #{result},</if>
+            <if test="monthResult != null  and monthResult != ''">monthResult = #{monthResult},</if>
+            <if test="starFlag != null  and starFlag != ''">starFlag = #{starFlag},</if>
+        </trim>
+        where birUserId = #{birUserId}
+    </update>
+
+    <delete id="deleteBirthById" parameterType="String">
+        delete from birth where birUserId = #{birUserId}
+    </delete>
+
+    <delete id="deleteBirthByIds" parameterType="String">
+        delete from birth where birUserId in
+        <foreach item="birUserId" collection="array" open="(" separator="," close=")">
+            #{birUserId}
+        </foreach>
+    </delete>
+
+
+    <insert id="insertBirthBatch" >
+        insert into birth(birUserId, birName, deptType, deptId,
+                          deptName, birMonth, birDay, avatar,
+                          result, monthResult, starFlag
+        )
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.birUserId},#{item.birName},#{item.deptType},#{item.deptId},
+            #{item.deptName},#{item.birMonth},#{item.birDay},#{item.avatar},
+            #{item.result},#{item.monthResult},#{item.starFlag}
+            )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        birName = values(birName),
+        deptType = values(deptType),
+        deptId = values(deptId),
+        deptName = values(deptName),
+
+        birMonth = if(IFNULL(values(birMonth),0)>0,values(birMonth),birMonth),
+        birDay = if(IFNULL(values(birDay),0)>0,values(birDay),birDay),
+        /*birMonth = values(birMonth),
+        birDay = values(birDay),*/
+        avatar = values(avatar),
+        monthResult = if(IFNULL(values(monthResult),0)>0,values(monthResult),monthResult),
+        result = if(IFNULL(values(result),0)>0,values(result),result),
+        starFlag = if(IFNULL(values(starFlag),0)>0,values(starFlag),starFlag)
+
+
+
+    </insert>
+
+</mapper>

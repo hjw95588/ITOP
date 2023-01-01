@@ -1,0 +1,80 @@
+# Spring Settings
+spring:
+  main:
+   allow-bean-definition-overriding: true
+  # activiti
+  activiti:
+    db-history-used: true
+    history-level: audit
+    database-schema-update: true
+    async-executor-activate: false
+    deployment-mode: never-fail # 关闭 SpringAutoDeployment
+
+  # Resource Messages
+  messages:
+    # I18N Resource Path
+    basename: i18n/messages
+  jackson.time-zone: GMT+8
+  jackson:
+      default-property-inclusion: non_null
+#  main:
+#    allow-bean-definition-overriding: true
+  # File Upload
+  servlet:
+     multipart:
+       # Single File Max-Size
+       max-file-size:  50MB
+       # Total Files Max-Size
+       max-request-size:  50MB
+
+# Token Setting
+token:
+    # Custom Token Mark
+    header: Authorization
+    # Token Secret
+    secret: abcdefghijklmnopqrstuvwxyz
+    # Token Expire Time (default 30min)
+    expireTime: 30
+
+mybatis-plus:
+  typeAliasesPackage: com.ebchinatech.**.domain
+  mapperLocations: classpath*:mybatis/**/*Mapper.xml
+  configLocation: classpath:mybatis/mybatis-config.xml
+
+# PageHelper Setting
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: false  #取消自动分页
+
+# Code Generate Setting
+gen:
+  author: Kylin
+  # Package Name
+  packageName: com.ebchinatech.kylin
+  # Auto Remove Prefix
+  autoRemovePre: false
+  # Table Prefix (xx_,xx_,xx_)
+  tablePrefix: kylin_
+
+# XSS Setting
+xss:
+  # XSS Filter Enabled
+  enabled: true
+  # Excludes UIL (/XX/*,/XX/*,/XX/*)
+  excludes: /system/notice/*
+  # Patterns UIL (/XX/*,/XX/*,/XX/*)
+  urlPatterns: /system/*,/monitor/*,/tool/*
+
+##管理员ID
+adminId: admin
+#访问系统的内网ip网段
+internalIp: 25.xx.xx.xx
+
+
+
+
+
+
+
+

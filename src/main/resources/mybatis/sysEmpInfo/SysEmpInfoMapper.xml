@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ebchinatech.itop.web.punch.mapper.SysEmpInfoMapper">
+
+    <resultMap type="SysEmpInfo" id="SysEmpInfoResult">
+        <result property="empid"    column="empid"    />
+        <result property="workno"    column="workno"    />
+        <result property="empName"    column="empName"    />
+        <result property="gender"    column="gender"    />
+        <result property="firtorgname"    column="firtorgname"    />
+        <result property="teamAffiliated"    column="teamAffiliated"    />
+        <result property="employType"    column="employType"    />
+        <result property="firstWorkDate"    column="firstWorkDate"    />
+        <result property="hireDate"    column="hireDate"    />
+        <result property="mobile"    column="mobile"    />
+        <result property="EXT_COL_994"    column="EXT_COL_994"    />
+        <result property="EXT_COL_951"    column="EXT_COL_951"    />
+        <result property="EXT_COL_999"    column="EXT_COL_999"    />
+        <result property="EXT_COL_974"    column="EXT_COL_974"    />
+        <result property="cascadingJobGrade"    column="cascadingJobGrade"    />
+        <result property="other1"    column="other1"    />
+        <result property="other2"    column="other2"    />
+        <result property="birthDate"    column="birthDate"    />
+        <result property="nation"    column="nation"    />
+        <result property="idCardNo"    column="idCardNo"    />
+        <result property="politics"    column="politics"    />
+        <result property="EXT_COL_998"    column="EXT_COL_998"    />
+        <result property="nationality"    column="nationality"    />
+        <result property="hujiAddress"    column="hujiAddress"    />
+        <result property="EXT_COL_934"    column="EXT_COL_934"    />
+        <result property="hujiCity"    column="hujiCity"    />
+        <result property="nowAddr"    column="nowAddr"    />
+        <result property="lastEduDegree"    column="lastEduDegree"    />
+        <result property="highDegree"    column="highDegree"    />
+        <result property="EXT_COL_935"    column="EXT_COL_935"    />
+        <result property="marriage"    column="marriage"    />
+        <result property="fertilityStatus"    column="fertilityStatus"    />
+        <result property="corpEmail"    column="corpEmail"    />
+        <result property="terminationDate"    column="terminationDate"    />
+
+
+    </resultMap>
+
+    <sql id="selectSysEmpInfoVo">
+        select empid,photoUrl, workno, empName,
+               gender, firtorgname, teamAffiliated,
+               employType, firstWorkDate, hireDate, mobile,
+               EXT_COL_994, EXT_COL_951, EXT_COL_999, EXT_COL_974,
+               cascadingJobGrade, other1, other2, birthDate, nation, idCardNo,
+               politics, EXT_COL_998, nationality, hujiAddress, EXT_COL_934,
+               hujiCity, nowAddr, lastEduDegree, highDegree, EXT_COL_935,
+               marriage, fertilityStatus, corpEmail,terminationDate,isUpgrade from sys_emp_info
+    </sql>
+
+    <sql id="selectSysEmpInfoVoList">
+        select empid,photoUrl, workno, empName,
+               gender, firtorgname, teamAffiliated,
+               employType, firstWorkDate, hireDate, mobile,
+               EXT_COL_994, EXT_COL_951, EXT_COL_999, EXT_COL_974,
+               cascadingJobGrade, birthDate, nation, idCardNo,
+               politics, EXT_COL_998, nationality, hujiAddress, EXT_COL_934,
+               hujiCity, nowAddr, lastEduDegree, highDegree, EXT_COL_935,
+               marriage, fertilityStatus, corpEmail,terminationDate,isUpgrade from sys_emp_info
+    </sql>
+
+
+
+    <select id="selectSysEmpInfoList" parameterType="SysEmpInfo" resultMap="SysEmpInfoResult">
+        <include refid="selectSysEmpInfoVoList"/>
+        <where>
+            <if test="workno != null  and workno != ''"> and workno like concat('%', #{workno}, '%')</if>
+            <if test="empName != null  and empName != ''"> and empName like concat('%', #{empName}, '%')</if>
+            <if test="gender != null  and gender != ''"> and gender = #{gender}</if>
+            <if test="firtorgname != null  and firtorgname != ''"> and firtorgname like concat('%', #{firtorgname}, '%')</if>
+            <if test="teamAffiliated != null  and teamAffiliated != ''"> and teamAffiliated like concat('%', #{teamAffiliated}, '%')</if>
+            <if test="employType != null  and employType != ''"> and employType like concat('%', #{employType}, '%')</if>
+            <if test="firstWorkDate != null  and firstWorkDate != ''"> and instr(firstWorkDate,#{firstWorkDate})</if>
+            <if test="hireDate != null  and hireDate != ''"> and instr(hireDate,#{hireDate})</if>
+            <if test="mobile != null  and mobile != ''"> and mobile like concat('%', #{mobile}, '%')</if>
+            <if test="EXT_COL_994 != null  and EXT_COL_994 != ''"> and instr(EXT_COL_994,#{EXT_COL_994})</if>
+            <if test="EXT_COL_951 != null  and EXT_COL_951 != ''"> and instr(EXT_COL_951,#{EXT_COL_951})</if>
+            <if test="EXT_COL_999 != null  and EXT_COL_999 != ''">  and instr(EXT_COL_999,#{EXT_COL_999})</if>
+            <if test="EXT_COL_974 != null  and EXT_COL_974 != ''"> and instr(EXT_COL_974,#{EXT_COL_974})</if>
+            <if test="cascadingJobGrade != null  and cascadingJobGrade != ''"> and instr(cascadingJobGrade,#{cascadingJobGrade})</if>
+
+            <if test="birthDate != null  and birthDate != ''">and instr(birthDate,#{birthDate})</if>
+            <if test="nation != null  and nation != ''"> and instr(nation,#{nation})</if>
+            <if test="idCardNo != null  and idCardNo != ''"> and instr(idCardNo,#{idCardNo})</if>
+            <if test="politics != null  and politics != ''"> and instr(politics,#{politics})</if>
+            <if test="EXT_COL_998 != null  and EXT_COL_998 != ''">  and instr(EXT_COL_998,#{EXT_COL_998})</if>
+            <if test="nationality != null  and nationality != ''">  and instr(nationality,#{nationality})</if>
+            <if test="hujiAddress != null  and hujiAddress != ''">  and instr(hujiAddress,#{hujiAddress})</if>
+            <if test="EXT_COL_934 != null  and EXT_COL_934 != ''">  and instr(EXT_COL_934,#{EXT_COL_934})</if>
+            <if test="hujiCity != null  and hujiCity != ''"> and instr(hujiCity,#{hujiCity}) </if>
+            <if test="nowAddr != null  and nowAddr != ''"> and instr(nowAddr,#{nowAddr})</if>
+            <if test="lastEduDegree != null  and lastEduDegree != ''">and instr(lastEduDegree,#{lastEduDegree})</if>
+            <if test="highDegree != null  and highDegree != ''"> and instr(highDegree,#{highDegree})</if>
+            <if test="EXT_COL_935 != null  and EXT_COL_935 != ''"> and instr(EXT_COL_935,#{EXT_COL_935})</if>
+            <if test="marriage != null  and marriage != ''"> and instr(marriage,#{marriage})</if>
+            <if test="fertilityStatus != null  and fertilityStatus != ''"> and instr(fertilityStatus,#{fertilityStatus})</if>
+            <if test="corpEmail != null  and corpEmail != ''"> and instr(corpEmail,#{corpEmail})</if>
+            <if test="terminationDate != null  and terminationDate != ''"> and instr(terminationDate,#{terminationDate})</if>
+
+            <if test="isUpgrade != null  and isUpgrade != ''"> and isUpgrade=#{isUpgrade}</if>
+
+
+        </where>
+        order by EXT_COL_974 desc,hireDate desc,terminationDate desc
+    </select>
+
+    <select id="selectSysEmpInfoById" parameterType="Long" resultMap="SysEmpInfoResult">
+        <include refid="selectSysEmpInfoVo"/>
+        where empid = #{empid}
+    </select>
+
+    <insert id="insertSysEmpInfo" parameterType="SysEmpInfo">
+        insert into sys_emp_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="empid != null ">empid,</if>
+            <if test="photoUrl != null and photoUrl !='' ">photoUrl,</if>
+            <if test="workno != null  and workno != ''">workno,</if>
+            <if test="empName != null  and empName != ''">empName,</if>
+            <if test="gender != null  and gender != ''">gender,</if>
+            <if test="firtorgname != null  and firtorgname != ''">firtorgname,</if>
+            <if test="teamAffiliated != null  and teamAffiliated != ''">teamAffiliated,</if>
+            <if test="employType != null  and employType != ''">employType,</if>
+            <if test="firstWorkDate != null  and firstWorkDate != ''">firstWorkDate,</if>
+            <if test="hireDate != null  and hireDate != ''">hireDate,</if>
+            <if test="mobile != null  and mobile != ''">mobile,</if>
+            <if test="EXT_COL_994 != null  and EXT_COL_994 != ''">EXT_COL_994,</if>
+            <if test="EXT_COL_951 != null  and EXT_COL_951 != ''">EXT_COL_951,</if>
+            <if test="EXT_COL_999 != null  and EXT_COL_999 != ''">EXT_COL_999,</if>
+            <if test="EXT_COL_974 != null  and EXT_COL_974 != ''">EXT_COL_974,</if>
+            <if test="cascadingJobGrade != null  and cascadingJobGrade != ''">cascadingJobGrade,</if>
+            <if test="other1 != null  and other1 != ''">other1,</if>
+            <if test="other2 != null  and other2 != ''">other2,</if>
+            <if test="birthDate != null  and birthDate != ''">birthDate,</if>
+            <if test="nation != null  and nation != ''">nation,</if>
+            <if test="idCardNo != null  and idCardNo != ''">idCardNo,</if>
+            <if test="politics != null  and politics != ''">politics,</if>
+            <if test="EXT_COL_998 != null  and EXT_COL_998 != ''">EXT_COL_998,</if>
+            <if test="nationality != null  and nationality != ''">nationality,</if>
+            <if test="hujiAddress != null  and hujiAddress != ''">hujiAddress,</if>
+            <if test="EXT_COL_934 != null  and EXT_COL_934 != ''">EXT_COL_934,</if>
+            <if test="hujiCity != null  and hujiCity != ''">hujiCity,</if>
+            <if test="nowAddr != null  and nowAddr != ''">nowAddr,</if>
+            <if test="lastEduDegree != null  and lastEduDegree != ''">lastEduDegree,</if>
+            <if test="highDegree != null  and highDegree != ''">highDegree,</if>
+            <if test="EXT_COL_935 != null  and EXT_COL_935 != ''">EXT_COL_935,</if>
+            <if test="marriage != null  and marriage != ''">marriage,</if>
+            <if test="fertilityStatus != null  and fertilityStatus != ''">fertilityStatus,</if>
+            <if test="corpEmail != null  and corpEmail != ''">corpEmail,</if>
+            <if test="terminationDate != null  and terminationDate != ''">terminationDate,</if>
+
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="empid != null ">#{empid},</if>
+            <if test="photoUrl != null  and photoUrl != ''">#{photoUrl},</if>
+            <if test="workno != null  and workno != ''">#{workno},</if>
+            <if test="empName != null  and empName != ''">#{empName},</if>
+            <if test="gender != null  and gender != ''">#{gender},</if>
+            <if test="firtorgname != null  and firtorgname != ''">#{firtorgname},</if>
+            <if test="teamAffiliated != null  and teamAffiliated != ''">#{teamAffiliated},</if>
+            <if test="employType != null  and employType != ''">#{employType},</if>
+            <if test="firstWorkDate != null  and firstWorkDate != ''">#{firstWorkDate},</if>
+            <if test="hireDate != null  and hireDate != ''">#{hireDate},</if>
+            <if test="mobile != null  and mobile != ''">#{mobile},</if>
+            <if test="EXT_COL_994 != null  and EXT_COL_994 != ''">#{EXT_COL_994},</if>
+            <if test="EXT_COL_951 != null  and EXT_COL_951 != ''">#{EXT_COL_951},</if>
+            <if test="EXT_COL_999 != null  and EXT_COL_999 != ''">#{EXT_COL_999},</if>
+            <if test="EXT_COL_974 != null  and EXT_COL_974 != ''">#{EXT_COL_974},</if>
+            <if test="cascadingJobGrade != null  and cascadingJobGrade != ''">#{cascadingJobGrade},</if>
+            <if test="other1 != null  and other1 != ''">#{other1},</if>
+            <if test="other2 != null  and other2 != ''">#{other2},</if>
+            <if test="birthDate != null  and birthDate != ''">#{birthDate},</if>
+            <if test="nation != null  and nation != ''">#{nation},</if>
+            <if test="idCardNo != null  and idCardNo != ''">#{idCardNo},</if>
+            <if test="politics != null  and politics != ''">#{politics},</if>
+            <if test="EXT_COL_998 != null  and EXT_COL_998 != ''">#{EXT_COL_998},</if>
+            <if test="nationality != null  and nationality != ''">#{nationality},</if>
+            <if test="hujiAddress != null  and hujiAddress != ''">#{hujiAddress},</if>
+            <if test="EXT_COL_934 != null  and EXT_COL_934 != ''">#{EXT_COL_934},</if>
+            <if test="hujiCity != null  and hujiCity != ''">#{hujiCity},</if>
+            <if test="nowAddr != null  and nowAddr != ''">#{nowAddr},</if>
+            <if test="lastEduDegree != null  and lastEduDegree != ''">#{lastEduDegree},</if>
+            <if test="highDegree != null  and highDegree != ''">#{highDegree},</if>
+            <if test="EXT_COL_935 != null  and EXT_COL_935 != ''">#{EXT_COL_935},</if>
+            <if test="marriage != null  and marriage != ''">#{marriage},</if>
+            <if test="fertilityStatus != null  and fertilityStatus != ''">#{fertilityStatus},</if>
+            <if test="corpEmail != null  and corpEmail != ''">#{corpEmail},</if>
+            <if test="terminationDate != null  and terminationDate != ''">#{terminationDate},</if>
+
+         </trim>
+    </insert>
+
+    <update id="updateSysEmpInfo" parameterType="SysEmpInfo">
+        update sys_emp_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="photoUrl != null  and photoUrl != ''">photoUrl = #{photoUrl},</if>
+            <if test="workno != null  and workno != ''">workno = #{workno},</if>
+            <if test="empName != null  and empName != ''">empName = #{empName},</if>
+            <if test="gender != null  and gender != ''">gender = #{gender},</if>
+            <if test="firtorgname != null  and firtorgname != ''">firtorgname = #{firtorgname},</if>
+            <if test="teamAffiliated != null  and teamAffiliated != ''">teamAffiliated = #{teamAffiliated},</if>
+            <if test="employType != null  and employType != ''">employType = #{employType},</if>
+            <if test="firstWorkDate != null  and firstWorkDate != ''">firstWorkDate = #{firstWorkDate},</if>
+            <if test="hireDate != null  and hireDate != ''">hireDate = #{hireDate},</if>
+            <if test="mobile != null  and mobile != ''">mobile = #{mobile},</if>
+            <if test="EXT_COL_994 != null  and EXT_COL_994 != ''">EXT_COL_994 = #{EXT_COL_994},</if>
+            <if test="EXT_COL_951 != null  and EXT_COL_951 != ''">EXT_COL_951 = #{EXT_COL_951},</if>
+            <if test="EXT_COL_999 != null  and EXT_COL_999 != ''">EXT_COL_999 = #{EXT_COL_999},</if>
+            <if test="EXT_COL_974 != null  and EXT_COL_974 != ''">EXT_COL_974 = #{EXT_COL_974},</if>
+            <if test="cascadingJobGrade != null  and cascadingJobGrade != ''">cascadingJobGrade = #{cascadingJobGrade},</if>
+            <if test="other1 != null  and other1 != ''">other1 = #{other1},</if>
+            <if test="other2 != null  and other2 != ''">other2 = #{other2},</if>
+            <if test="birthDate != null  and birthDate != ''">birthDate = #{birthDate},</if>
+            <if test="nation != null  and nation != ''">nation = #{nation},</if>
+            <if test="idCardNo != null  and idCardNo != ''">idCardNo = #{idCardNo},</if>
+            <if test="politics != null  and politics != ''">politics = #{politics},</if>
+            <if test="EXT_COL_998 != null  and EXT_COL_998 != ''">EXT_COL_998 = #{EXT_COL_998},</if>
+            <if test="nationality != null  and nationality != ''">nationality = #{nationality},</if>
+            <if test="hujiAddress != null  and hujiAddress != ''">hujiAddress = #{hujiAddress},</if>
+            <if test="EXT_COL_934 != null  and EXT_COL_934 != ''">EXT_COL_934 = #{EXT_COL_934},</if>
+            <if test="hujiCity != null  and hujiCity != ''">hujiCity = #{hujiCity},</if>
+            <if test="nowAddr != null  and nowAddr != ''">nowAddr = #{nowAddr},</if>
+            <if test="lastEduDegree != null  and lastEduDegree != ''">lastEduDegree = #{lastEduDegree},</if>
+            <if test="highDegree != null  and highDegree != ''">highDegree = #{highDegree},</if>
+            <if test="EXT_COL_935 != null  and EXT_COL_935 != ''">EXT_COL_935 = #{EXT_COL_935},</if>
+            <if test="marriage != null  and marriage != ''">marriage = #{marriage},</if>
+            <if test="fertilityStatus != null  and fertilityStatus != ''">fertilityStatus = #{fertilityStatus},</if>
+            <if test="corpEmail != null  and corpEmail != ''">corpEmail = #{corpEmail},</if>
+            <if test="terminationDate != null  and terminationDate != ''">terminationDate = #{terminationDate},</if>
+        </trim>
+        where empid = #{empid}
+    </update>
+
+    <delete id="deleteSysEmpInfoById" parameterType="Long">
+        delete from sys_emp_info where empid = #{empid}
+    </delete>
+
+    <delete id="deleteSysEmpInfoByIds" parameterType="String">
+        delete from sys_emp_info where empid in
+        <foreach item="empid" collection="array" open="(" separator="," close=")">
+            #{empid}
+        </foreach>
+    </delete>
+
+   <update id="updateSysEmpUpgrade" >
+       update sys_emp_info set isUpgrade='是' where workno in
+       <foreach item="item" collection="list" open="(" separator="," close=")">
+           #{item.workno}
+       </foreach>
+   </update>
+
+    <select id="getUpgradeRow" resultType="map">
+        select a.year,a.rank from sys_emp_upgrade a
+       INNER JOIN sys_emp_info b on a.workno=b.workno
+       where b.empid=#{empid}
+    </select>
+
+    <insert id="insertEmpUpgrade" >
+        insert into sys_emp_upgrade(year,rank,workno
+
+        )
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.year},#{item.rank},#{item.workno}
+            )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        rank = values(rank)
+
+    </insert>
+
+    <insert id="insertEmpInfoBatch" >
+        insert into sys_emp_info(empid,photoUrl, workno, empName, gender, firtorgname, teamAffiliated,
+         employType, firstWorkDate, hireDate, mobile, EXT_COL_994, EXT_COL_951,
+         EXT_COL_999, EXT_COL_974, cascadingJobGrade, other1, other2, birthDate,
+          nation, idCardNo, politics, EXT_COL_998, nationality, hujiAddress,
+          EXT_COL_934, hujiCity, nowAddr, lastEduDegree,highDegree, EXT_COL_935,
+        marriage, fertilityStatus, corpEmail
+
+        )
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.empid},#{item.photoUrl},#{item.workno},#{item.empName},#{item.gender},#{item.firtorgname},#{item.teamAffiliated},
+            #{item.employType},#{item.firstWorkDate},#{item.hireDate},#{item.mobile},#{item.EXT_COL_994},#{item.EXT_COL_951},
+            #{item.EXT_COL_999},#{item.EXT_COL_974},#{item.cascadingJobGrade},#{item.other1},#{item.other2},#{item.birthDate},
+            #{item.nation},#{item.idCardNo},#{item.politics},#{item.EXT_COL_998},#{item.nationality},#{item.hujiAddress},
+            #{item.EXT_COL_934},#{item.hujiCity},#{item.nowAddr},#{item.lastEduDegree},#{item.highDegree},#{item.EXT_COL_935},
+            #{item.marriage},#{item.fertilityStatus},#{item.corpEmail}
+
+            )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        workno = values(workno),
+        photoUrl = values(photoUrl),
+        empName = values(empName),
+        gender = values(gender),
+        firtorgname = values(firtorgname),
+        teamAffiliated = values(teamAffiliated),
+        employType = values(employType),
+        firstWorkDate = values(firstWorkDate),
+        hireDate = values(hireDate),
+        mobile = values(mobile),
+        EXT_COL_994 = values(EXT_COL_994),
+        EXT_COL_951 = values(EXT_COL_951),
+        EXT_COL_999 = values(EXT_COL_999),
+        EXT_COL_974 = values(EXT_COL_974),
+        cascadingJobGrade = values(cascadingJobGrade),
+        other1 = values(other1),
+        other2 = values(other2),
+        birthDate = values(birthDate),
+        nation = values(nation),
+        idCardNo = values(idCardNo),
+        politics = values(politics),
+        EXT_COL_998 = values(EXT_COL_998),
+        nationality = values(nationality),
+        hujiAddress = values(hujiAddress),
+        EXT_COL_934 = values(EXT_COL_934),
+        hujiCity = values(hujiCity),
+        nowAddr = values(nowAddr),
+        lastEduDegree = values(lastEduDegree),
+        highDegree = values(highDegree),
+        EXT_COL_935 = values(EXT_COL_935),
+        marriage = values(marriage),
+        fertilityStatus = values(fertilityStatus),
+        corpEmail = values(corpEmail)
+
+    </insert>
+
+
+
+    <update id="updateTerminationDate">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update sys_emp_info
+            <set>
+                <if test="item.terminationDate != null and item.terminationDate != ''">
+                    terminationDate = #{item.terminationDate},
+                    EXT_COL_974='主动离职',
+                </if>
+            </set>
+            where workno = #{item.workno}
+        </foreach>
+    </update>
+
+</mapper>
